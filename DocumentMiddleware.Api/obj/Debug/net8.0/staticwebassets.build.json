@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "K9THve6kHNSNla8S3fAyQtah6c7pAqv7XZbtoVNAfNA=",
+  "Source": "DocumentMiddleware.Api",
+  "BasePath": "_content/DocumentMiddleware.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

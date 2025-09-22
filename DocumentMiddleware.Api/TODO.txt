@@ -1,0 +1,4 @@
+https://ravindradevrani.medium.com/image-upload-crud-operations-in-net-core-apis-7407f111d2f4
+
+1. download docker & run SQL Server to view db
+2. 

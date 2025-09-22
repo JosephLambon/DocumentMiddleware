@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/DocumentMiddleware.Api.props" />
+</Project>
