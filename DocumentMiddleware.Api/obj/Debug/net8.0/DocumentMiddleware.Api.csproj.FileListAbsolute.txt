@@ -146,3 +146,5 @@
 /Users/joelambon/DocumentMiddleware/DocumentMiddleware.Api/obj/Debug/net8.0/DocumentMiddleware.Api.pdb
 /Users/joelambon/DocumentMiddleware/DocumentMiddleware.Api/obj/Debug/net8.0/DocumentMiddleware.Api.genruntimeconfig.cache
 /Users/joelambon/DocumentMiddleware/DocumentMiddleware.Api/obj/Debug/net8.0/ref/DocumentMiddleware.Api.dll
+/Users/joelambon/DocumentMiddleware/DocumentMiddleware.Api/bin/Debug/net8.0/AutoMapper.dll
+/Users/joelambon/DocumentMiddleware/DocumentMiddleware.Api/bin/Debug/net8.0/Microsoft.Extensions.ObjectPool.dll
