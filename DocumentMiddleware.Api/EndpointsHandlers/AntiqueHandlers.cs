@@ -7,25 +7,29 @@ using Microsoft.AspNetCore.Mvc;
 namespace DocumentMiddleware.Api.EndpointsHandlers;
 public static class AntiqueHandlers
 {
+    //public static async Task GetAntiqueById()
+    //{
+    //    return new NotImplementedException();
+    //}
+
     public static async Task<Results<Ok<AntiqueForResponseDto>,BadRequest<string>, StatusCodeHttpResult>> CreateAntiqueAsync(
         DocumentDbContext documentDbContext,
         IMapper mapper,
         [FromForm] AntiqueForCreationDto antiqueToCreate,
-        ILogger<AntiqueForCreationDto> logger,
+        ILogger<Antique> logger,
         IFileService fileService
     )
     {
         logger.LogInformation("Creating antique...");
-        // SAVE THE FILE CODE TO GO HERE!
 
         try
         {
-            if (antiqueToCreate.ImageFile?.Length > 1 * 1024 * 1024)
+            if (antiqueToCreate.ThumbnailFile?.Length > 1 * 1024 * 1024)
             {
                 return TypedResults.BadRequest("File size should not exceed 1 MB");
             }
             string[] allowedFileExtentions = [".jpg", ".jpeg", ".png"];
-            string createdImageName = await fileService.UploadFileAsync(antiqueToCreate.ImageFile, allowedFileExtentions);
+            string createdImageName = await fileService.UploadFileAsync(antiqueToCreate.ThumbnailFile, allowedFileExtentions);
 
             var antiqueEntity = mapper.Map<Antique>(antiqueToCreate, opt =>
             {

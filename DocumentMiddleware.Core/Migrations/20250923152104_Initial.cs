@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DocumentMiddleware.Core.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,9 @@ namespace DocumentMiddleware.Core.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: true),
-                    Thumbnail = table.Column<string>(type: "text", nullable: true)
+                    Status = table.Column<int>(type: "integer", nullable: true),
+                    Thumbnail = table.Column<string>(type: "text", nullable: true),
+                    Images = table.Column<string[]>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
                 {

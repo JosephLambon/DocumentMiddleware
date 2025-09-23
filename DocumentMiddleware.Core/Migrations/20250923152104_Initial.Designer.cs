@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DocumentMiddleware.Core.Migrations
 {
     [DbContext(typeof(DocumentDbContext))]
-    [Migration("20250923104452_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250923152104_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,8 +32,14 @@ namespace DocumentMiddleware.Core.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string[]>("Images")
+                        .HasColumnType("text[]");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
+
+                    b.Property<int?>("Status")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Thumbnail")
                         .HasColumnType("text");
