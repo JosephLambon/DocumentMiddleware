@@ -7,7 +7,11 @@ public class AntiqueProfile : Profile
 {
     public AntiqueProfile()
     {
-        CreateMap<Antique, AntiqueDto>();
-        CreateMap<AntiqueDto, Antique>();
+        CreateMap<AntiqueForCreationDto, Antique>()
+            .ForMember(dest => dest.Thumbnail,
+            opt => opt.MapFrom((src, dest, destMember, context) =>
+            context.Items["FileName"]
+            ));
+        CreateMap<Antique, AntiqueForResponseDto>();
     }
 }

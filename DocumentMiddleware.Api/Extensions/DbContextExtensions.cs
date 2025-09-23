@@ -1,5 +1,6 @@
 using DocumentMiddleware.Core.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Internal;
 
 namespace DocumentMiddleware.Api.Extensions;
 
@@ -9,7 +10,7 @@ public static class DbContextExtensions
     {
         services.AddDbContext<DocumentDbContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("default"));
+            options.UseNpgsql(configuration.GetConnectionString("default"));
         });
         return services;
     }

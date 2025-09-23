@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace DocumentMiddleware.Api.EndpointsHandlers;
 public static class AntiqueHandlers
 {
-    public static async Task<Results<CreatedAtRoute<AntiqueDto>,BadRequest<string>, StatusCodeHttpResult>> CreateAntiqueAsync(
+    public static async Task<Results<Ok<AntiqueForResponseDto>,BadRequest<string>, StatusCodeHttpResult>> CreateAntiqueAsync(
         DocumentDbContext documentDbContext,
         IMapper mapper,
-        [FromForm] AntiqueDto antiqueToCreate,
-        ILogger<AntiqueDto> logger,
+        [FromForm] AntiqueForCreationDto antiqueToCreate,
+        ILogger<AntiqueForCreationDto> logger,
         IFileService fileService
     )
     {
@@ -27,19 +27,23 @@ public static class AntiqueHandlers
             string[] allowedFileExtentions = [".jpg", ".jpeg", ".png"];
             string createdImageName = await fileService.UploadFileAsync(antiqueToCreate.ImageFile, allowedFileExtentions);
 
-            var antiqueEntity = mapper.Map<Antique>(antiqueToCreate);
+            var antiqueEntity = mapper.Map<Antique>(antiqueToCreate, opt =>
+            {
+                opt.Items["FileName"] = createdImageName;
+            });
 
-            var antiqueToReturn = mapper.Map<AntiqueDto>(antiqueEntity);
+            var antiqueToReturn = mapper.Map<AntiqueForResponseDto>(antiqueEntity);
         
             documentDbContext.Antiques.Add(antiqueEntity);
             await documentDbContext.SaveChangesAsync();
-        
+
             // Need to add a valid routeName and routeValues
-            return TypedResults.CreatedAtRoute(
-                antiqueToReturn,
-                null,
-                null
-            );
+            //return TypedResults.CreatedAtRoute(
+            //    antiqueToReturn,
+            //    null,
+            //    null
+            //);
+            return TypedResults.Ok(antiqueToReturn); // TEMPORARY
         }
         catch (Exception ex)
         {

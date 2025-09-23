@@ -2,14 +2,21 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
 
 namespace DocumentMiddleware.Core.Models;
-public class AntiqueDto
+public class AntiqueForResponseDto
+{
+    public string? Name { get; set; }
+    
+    public string? Thumbnail { get; set; }
+}
+
+public class AntiqueForCreationDto
 {
     public string? Name { get; set; }
     
     public IFormFile? ImageFile { get; set; }
 }
 
-public class AntiqueUpdateDTO
+public class AntiqueUpdateDto
 {
     public int Id { get; set; }
     
