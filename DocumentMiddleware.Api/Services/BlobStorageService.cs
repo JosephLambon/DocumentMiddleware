@@ -9,8 +9,17 @@ namespace DocumentMiddleware.Api.Services
         {
             BlobServiceClient client = new(
                 new Uri($"https://{accountName}.blob.core.windows.net"),
-                new DefaultAzureCredential());
+                new DefaultAzureCredential()
+                );
 
+            return client;
+        }
+        
+        public static BlobServiceClient GetBlobServiceClientLocal()
+        {
+            BlobServiceClient client = new BlobServiceClient("UseDevelopmentStorage=true",
+                new DefaultAzureCredential()
+                );
             return client;
         }
     }

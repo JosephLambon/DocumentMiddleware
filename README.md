@@ -1,20 +1,23 @@
-1. Install Docker
+# Document Middleware
 
-
-2. Run docker container image
+## 🧰 Get Started
+1. **Install** Docker
+2. **Pull** Docker Images
+- Postgres - database mocking for antique items
+- Azurite - emulating Blob Storage for document uploads
 ```
-docker start postgres
-```
-
-```
-# IF NOT INSTALLED, RUN THIS:
 docker pull postgres
 docker run --name postgres-db -e POSTGRES_PASSWORD=testpassword -e POSTGRES_USER=testuser -e POSTGRES_DB=mydatabase -p 5432:5432 -v postgres-data:/var/lib/postgresql/data -d postgres
 docker ps # confirm it's running
 ```
+```
+docker pull mcr.microsoft.com/azure-storage/azurite
+docker run -p 10000:10000 -p 10001:10001 -p 10002:10002 \
+    mcr.microsoft.com/azure-storage/azurite
+```
 
 
-2. Update appsettings.json with your PostgreSQL connection string
+3. **Configure** appsettings.json with your PostgreSQL connection string
 
 ```
 "ConnectionStrings": {
@@ -22,4 +25,9 @@ docker ps # confirm it's running
 }
 ```
 
-3. Run the application
+4. **Run** the application
+
+---
+#### Sources
+1. PostgreSQL - https://www.datacamp.com/tutorial/postgresql-docker?dc_referrer=https%3A%2F%2Fwww.google.com%2F
+2. Azurite -  https://learn.microsoft.com/en-us/azure/storage/common/storage-install-azurite?tabs=docker-hub%2Cblob-storage

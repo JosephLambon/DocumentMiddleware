@@ -19,7 +19,7 @@ public class FileService(IWebHostEnvironment environment) : IFileService
 
         /*
          * Uploads files in /Uploads directory
-         * Needs to instaead upload to Azure blob storage
+         * Needs to instead upload to Azure blob storage
         */
         var contentPath = environment.ContentRootPath;
         var path = Path.Combine(contentPath, "Uploads");
@@ -38,7 +38,8 @@ public class FileService(IWebHostEnvironment environment) : IFileService
         /* 
          *  Upload image to Blob Storage
          */
-        BlobServiceClient blobServiceClient = BlobStorageService.GetBlobServiceClient(Constants.BlobStorage.STORAGE_ACCOUNT_NAME);
+        // BlobServiceClient blobServiceClient = BlobStorageService.GetBlobServiceClient(Constants.BlobStorage.STORAGE_ACCOUNT_NAME);
+        BlobServiceClient blobServiceClient = BlobStorageService.GetBlobServiceClientLocal();
         var containerClient = blobServiceClient.GetBlobContainerClient(Constants.BlobStorage.ANTIQUE_IMAGE_CONTAINER);
         
         var fileName = $"{Guid.NewGuid().ToString()}{ext}";
