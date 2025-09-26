@@ -3,9 +3,10 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using DocumentMiddleware.Api.Services;
+using DocumentMiddleware.Core.Models;
 
 namespace DocumentMiddleware.Api.Services;
-public class FileService(IWebHostEnvironment environment) : IFileService
+public class FileService(IWebHostEnvironment environment, ILogger<Antique> logger) : IFileService
 {
     public async Task<string> UploadFileAsync(
         IFormFile imageFile,
@@ -17,10 +18,6 @@ public class FileService(IWebHostEnvironment environment) : IFileService
             throw new ArgumentNullException(nameof(imageFile));
         }
 
-        /*
-         * Uploads files in /Uploads directory
-         * Needs to instead upload to Azure blob storage
-        */
         var contentPath = environment.ContentRootPath;
         var path = Path.Combine(contentPath, "Uploads");
 
@@ -35,26 +32,23 @@ public class FileService(IWebHostEnvironment environment) : IFileService
             throw new ArgumentException($"Only {string.Join(",", allowedFileExtensions)} are allowed.");
         }
 
-        /* 
-         *  Upload image to Blob Storage
-         */
-        // BlobServiceClient blobServiceClient = BlobStorageService.GetBlobServiceClient(Constants.BlobStorage.STORAGE_ACCOUNT_NAME);
-        BlobServiceClient blobServiceClient = BlobStorageService.GetBlobServiceClientLocal();
-        var containerClient = blobServiceClient.GetBlobContainerClient(Constants.BlobStorage.ANTIQUE_IMAGE_CONTAINER);
+        // Update to automatically configure local/remote setup
+        logger.LogInformation("Connecting to storage container...");
+        // BlobServiceClient blobServiceClient = BlobStorageService.GetBlobContainerClient(Constants.BlobStorage.STORAGE_ACCOUNT_NAME);
+        BlobContainerClient blobContainerClient = BlobStorageService.GetBlobContainerClientLocal();
         
         var fileName = $"{Guid.NewGuid().ToString()}{ext}";
         var fileNameWithPath = Path.Combine(path, fileName);
 
-        using var stream = new FileStream(fileNameWithPath, FileMode.Create);
-
-        BlobClient blobClient = containerClient.GetBlobClient(fileName); // Create a new blob for image file
-        await blobClient.UploadAsync(stream, true); // true causes overwrite of existing same fileName
-
-        // Upload to local '/Uploads' folder
-        await imageFile.CopyToAsync(stream);
-
-        stream.Close();
-
+        BlobClient blobClient = blobContainerClient.GetBlobClient(fileName); // Create a new blob for image file
+        
+        await using (var stream = imageFile.OpenReadStream())
+        {
+            logger.LogInformation("Uploading blob...");
+            await blobClient.UploadAsync(stream, true); // true causes overwrite of existing same fileName
+        };
+        
+        logger.LogInformation("Blob upload succeeded.");
         return fileName;
     }
 }

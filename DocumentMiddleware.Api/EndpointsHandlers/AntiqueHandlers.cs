@@ -7,11 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace DocumentMiddleware.Api.EndpointsHandlers;
 public static class AntiqueHandlers
 {
-    //public static async Task GetAntiqueById()
-    //{
-    //    return new NotImplementedException();
-    //}
-
     public static async Task<Results<Ok<AntiqueForResponseDto>,BadRequest<string>, StatusCodeHttpResult>> CreateAntiqueAsync(
         DocumentDbContext documentDbContext,
         IMapper mapper,
